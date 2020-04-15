@@ -1,15 +1,15 @@
 package com.softsuit.arbol;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class TrunkTest {
+public class TrunkTest {
 	
-	private static Trunk<TwigInfo> trunk = new Trunk<TwigInfo>("trunkId");
+	private static Trunk<TwigInfo> trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 
 	@Test
-	void createRootTwigs() {
+	public void createRootTwigs() {
 		String twig1Id = "A";
 		String twig1Name = "branch1";
 		
@@ -45,16 +45,16 @@ class TrunkTest {
 	}
 	
 	@Test
-	void createRootTwigs_tryAddSameTwigsAgain_notPossible() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_tryAddSameTwigsAgain_notPossible() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		createRootTwigs();
 		assertEquals(4, trunk.getRamifications().size());
 	}
 	
 	@Test
-	void createRootTwigs_tryAdd1DifferentRamification_possible() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_tryAdd1DifferentRamification_possible() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		
 		String twig2Id = "BB";
@@ -70,8 +70,8 @@ class TrunkTest {
 	}
 	
 	@Test
-	void createRootTwigs_tryAdd2DifferentRamification_possible() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_tryAdd2DifferentRamification_possible() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		
 		String twig2Id = "BB";
@@ -102,11 +102,15 @@ class TrunkTest {
 		
 		assertEquals(twig4Name, trunk.getTwigById(twig4Id).get().getTwigInfo().getDescription());
 		
+		for (String seed : trunk.getGrowth().getSeeds()) {
+			System.out.println(seed);
+		}
+		
 	}
 	
 	@Test
-	void createRootTwigs_isLeaf_yes() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_isLeaf_yes() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		
 		boolean yes = true;
@@ -115,8 +119,8 @@ class TrunkTest {
 	}
 	
 	@Test
-	void createRootTwigs_isLeaf_no() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_isLeaf_no() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		
 		String twig2Id = "BA";
@@ -143,8 +147,8 @@ class TrunkTest {
 	}
 	
 	@Test
-	void createRootTwigs_caRemoveTwig_no() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_caRemoveTwig_no() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		
 		boolean no = false;
@@ -153,8 +157,8 @@ class TrunkTest {
 	}
 	
 	@Test
-	void createRootTwigs_caRemoveTwig_yes() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_caRemoveTwig_yes() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		
 		boolean yes = false;
@@ -163,8 +167,8 @@ class TrunkTest {
 	}
 	
 	@Test
-	void createRootTwigs_isRamificationOnly_no() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_isRamificationOnly_no() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		
 		boolean no = false;
@@ -173,8 +177,8 @@ class TrunkTest {
 	}
 	
 	@Test
-	void createRootTwigs_isRamificationOnly_yes() {
-		trunk = new Trunk<TwigInfo>("trunkId");
+	public void createRootTwigs_isRamificationOnly_yes() {
+		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
 		createRootTwigs();
 		
 		String twig2Id = "AB";

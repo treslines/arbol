@@ -14,10 +14,17 @@ public class Trunk<T> {
 
 	private String id;
 	private T trunkInfo;
+	private Growth growth;
 	private List<Twig<T>> ramifications = new ArrayList<>();
 	
 	public Trunk(final String id) {
 		this(id, null, new ArrayList<Twig<T>>());
+		this.growth = null;
+	}
+	
+	public Trunk(final String id, final Growth growth) {
+		this(id, null, new ArrayList<Twig<T>>());
+		this.growth = growth;
 	}
 
 	public Trunk(final String id, final T info, final List<Twig<T>> twigs) {
@@ -58,8 +65,18 @@ public class Trunk<T> {
 	public List<Twig<T>> getRamifications() {
 		return ramifications;
 	}
+	
+	public Growth getGrowth() {
+		return this.growth;
+	}
 
 	public void addTwig(final Twig<T> twig) {
+		
+		if(this.growth != null) {
+			this.growth.addSeed(twig.getId());
+			twig.addGrowth(this.growth);
+		}
+		
 		final String trunkId = twig.getId().substring(0, 1).trim();
 		if (ramifications.stream().anyMatch(t -> t.getId().contentEquals(trunkId))) {
 			Optional<Twig<T>> twigFoundWithId = getTwigById(trunkId);

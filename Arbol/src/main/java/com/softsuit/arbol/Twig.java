@@ -23,10 +23,17 @@ public class Twig<T> implements Twigable<T> {
 	private String id;
 	private T twigInfo;
 	private List<Twig<T>> ramifications;
+	private Growth growth;
 	private static final long serialVersionUID = -2274874211524488445L;
 
 	public Twig(final String id) {
 		this(id, null, new ArrayList<Twig<T>>());
+		this.growth = null;
+	}
+	
+	public Twig(final String id, final Growth growth) {
+		this(id, null, new ArrayList<Twig<T>>());
+		this.growth = growth;
 	}
 
 	public Twig(final String id, final T info, final List<Twig<T>> twigs) {
@@ -70,6 +77,10 @@ public class Twig<T> implements Twigable<T> {
 
 	public void addRamification(final Twig<T> twig) {
 
+		if(this.growth != null) {
+			this.growth.addSeed(twig.getId());
+		}
+		
 		final int nextIdIndex = ((this.id.length() + 1) > twig.getId().length()) ? twig.getId().length() : (this.id.length() + 1);
 		final String nextTwigId = twig.getId().substring(0, nextIdIndex).trim();
 
@@ -86,9 +97,15 @@ public class Twig<T> implements Twigable<T> {
 				ramifications.add(twig);
 			} else {
 				// otherwise, create and add to the newly created twig
-				Twig<T> newTwig = new Twig<T>(nextTwigId);
-				this.ramifications.add(newTwig);
-				newTwig.getRamifications().add(twig);
+				if(this.growth != null) {
+					Twig<T> newTwig = new Twig<T>(nextTwigId, this.growth);
+					this.ramifications.add(newTwig);
+					newTwig.getRamifications().add(twig);					
+				}else {
+					Twig<T> newTwig = new Twig<T>(nextTwigId);
+					this.ramifications.add(newTwig);
+					newTwig.getRamifications().add(twig);	
+				}
 			}
 		}
 	}
@@ -119,10 +136,19 @@ public class Twig<T> implements Twigable<T> {
 
 	@Override
 	public void removeRamification(String id) {
+		
+		if(this.growth != null) {
+			this.growth.removeSeed(id);
+		}
+		
 		Optional<Twig<T>> target = this.ramifications.stream().filter(t -> t.getId().contentEquals(id)).findFirst();
 		if(target.isPresent()) {
 			this.ramifications.remove(target.get());
 		}
+	}
+	
+	public void addGrowth(final Growth growth) {
+		this.growth = growth;
 	}
 
 }

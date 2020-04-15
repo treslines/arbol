@@ -8,7 +8,6 @@ public class Info implements TwigInfo {
 		this.description = description;
 	}
 	
-	@Override
 	public String getDescription() {
 		return this.description;
 	}
