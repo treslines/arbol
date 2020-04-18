@@ -1,10 +1,9 @@
 package com.softsuit.arbol;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public interface Twigable<T> extends Serializable{
+public interface Twigable<T> extends TwigTraceable<T>{
 	
 	/**
 	 * @return this twig id.
@@ -76,4 +75,10 @@ public interface Twigable<T> extends Serializable{
 	 * @return an Optional describing if any match, or an empty Optional.
 	 */
 	Optional<Twig<T>> getRamificationById(final String id);
+	
+	/**
+	 * Adds the capability to trace the growth of this twig.
+	 * @param growth object that maps the growth (ramifications) of this twig.
+	 */
+	void addGrowth(final Growth<T> growth);
 }

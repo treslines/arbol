@@ -2,10 +2,12 @@ package com.softsuit.arbol;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class Growth {
+public class Growth<T> {
 
 	private int longstSeed = 0;
+	private Optional<TrunkTraceable<T>> traceable;
 	private List<String> seeds = new ArrayList<>();
 
 	public void addSeed(String seed) {
@@ -36,4 +38,11 @@ public class Growth {
 		return this.longstSeed;
 	}
 
+	public void addTraceable(TrunkTraceable<T> trunk) {
+		this.traceable = Optional.of(trunk);
+	}
+
+	public Optional<TrunkTraceable<T>> getTraceable() {
+		return traceable.isPresent() ? traceable : Optional.empty();
+	}
 }

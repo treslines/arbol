@@ -2,15 +2,17 @@ package com.softsuit.arbol;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Optional;
+
 import org.junit.Test;
 
 public class GrowthTest {
 
-	private static Trunk<TwigInfo> trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+	private static Trunk<TwigInfo> trunk = new Trunk<TwigInfo>("trunkId");
 	
 	@Test
 	public void insertSeeds_checkGrowth() {
-		Growth gt = new Growth();
+		Growth<TwigInfo> gt = new Growth<>();
 		gt.addSeed("ABCD");
 		
 		int i = 0;
@@ -40,7 +42,7 @@ public class GrowthTest {
 	
 	@Test
 	public void createRootTwigs_addSeveralRamifications_checkGrowth() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		
 		String viniciusDeMoraes = 
 		"Quando a luz dos olhos meus " + 
@@ -70,137 +72,137 @@ public class GrowthTest {
 		"Precisa se casar";
 		
 		String sonetoDeFidelidade = 
-		"De tudo, ao meu amor serei atento" + 
-		"Antes, e com tal zelo, e sempre, e tanto" + 
-		"Que mesmo em face do maior encanto" + 
-		"Dele se encante mais meu pensamento." + 
+		"De tudo, ao meu amor serei atento " + 
+		"Antes, e com tal zelo, e sempre, e tanto " + 
+		"Que mesmo em face do maior encanto " + 
+		"Dele se encante mais meu pensamento. " + 
 		
-		"Quero vivê-lo em cada vão momento" + 
-		"E em louvor hei de espalhar meu canto" + 
-		"E rir meu riso e derramar meu pranto" + 
-		"Ao seu pesar ou seu contentamento." + 
+		"Quero vivê-lo em cada vão momento " + 
+		"E em louvor hei de espalhar meu canto " + 
+		"E rir meu riso e derramar meu pranto " + 
+		"Ao seu pesar ou seu contentamento. " + 
 		
-		"E assim, quando mais tarde me procure" + 
-		"Quem sabe a morte, angústia de quem vive" + 
-		"Quem sabe a solidão, fim de quem ama" + 
+		"E assim, quando mais tarde me procure " + 
+		"Quem sabe a morte, angústia de quem vive " + 
+		"Quem sabe a solidão, fim de quem ama " + 
 		
-		"Eu possa me dizer do amor (que tive):" + 
-		"Que não seja imortal, posto que é chama" + 
+		"Eu possa me dizer do amor (que tive): " + 
+		"Que não seja imortal, posto que é chama " + 
 		"Mas que seja infinito enquanto dure.";
 		
 		String olhosDaAmada =
-		"Ó minha amada" + 
-		"Que olhos os teus" + 
+		"Ó minha amada " + 
+		"Que olhos os teus " + 
 		
-		"São cais noturnos" + 
-		"Cheios de adeus" + 
-		"São docas mansas" + 
-		"Trilhando luzes" + 
-		"Que brilham longe" + 
-		"Longe nos breus…" + 
+		"São cais noturnos " + 
+		"Cheios de adeus " + 
+		"São docas mansas " + 
+		"Trilhando luzes " + 
+		"Que brilham longe " + 
+		"Longe nos breus… " + 
 		
-		"Ó minha amada" + 
-		"Que olhos os teus" + 
+		"Ó minha amada " + 
+		"Que olhos os teus " + 
 		
-		"Quanto mistério" + 
-		"Nos olhos teus" + 
-		"Quantos saveiros" + 
-		"Quantos navios" + 
-		"Quantos naufrágios" + 
-		"Nos olhos teus…" + 
+		"Quanto mistério " + 
+		"Nos olhos teus " + 
+		"Quantos saveiros " + 
+		"Quantos navios " + 
+		"Quantos naufrágios " + 
+		"Nos olhos teus… " + 
 		
-		"Ó minha amada" + 
-		"Que olhos os teus" + 
+		"Ó minha amada " + 
+		"Que olhos os teus " + 
 		
-		"Se Deus houvera" + 
-		"Fizera-os Deus" + 
-		"Pois não os fizera" + 
-		"Quem não soubera" + 
-		"Que há muitas eras" + 
-		"Nos olhos teus." + 
+		"Se Deus houvera " + 
+		"Fizera-os Deus " + 
+		"Pois não os fizera " + 
+		"Quem não soubera " + 
+		"Que há muitas eras " + 
+		"Nos olhos teus. " + 
 		
-		"Ah, minha amada" + 
-		"De olhos ateus" + 
+		"Ah, minha amada " + 
+		"De olhos ateus " + 
 		
-		"Cria a esperança" + 
-		"Nos olhos meus" + 
-		"De verem um dia" + 
-		"O olhar mendigo" + 
-		"Da poesia" + 
+		"Cria a esperança " + 
+		"Nos olhos meus " + 
+		"De verem um dia " + 
+		"O olhar mendigo " + 
+		"Da poesia " + 
 		"Nos olhos teus.";
 		
 		String amorFogoQueArde = 
-		"Amor é fogo que arde sem se ver" + 
+		"Amor é fogo que arde sem se ver " + 
 		
-		"Amor é fogo que arde sem se ver;" + 
-		"É ferida que dói e não se sente;" + 
-		"É um contentamento descontente;" + 
-		"É dor que desatina sem doer;" + 
+		"Amor é fogo que arde sem se ver; " + 
+		"É ferida que dói e não se sente; " + 
+		"É um contentamento descontente; " + 
+		"É dor que desatina sem doer; " + 
 		
-		"É um não querer mais que bem querer;" + 
-		"É solitário andar por entre a gente;" + 
-		"É nunca contentar-se de contente;" + 
-		"É cuidar que se ganha em se perder;" + 
+		"É um não querer mais que bem querer; " + 
+		"É solitário andar por entre a gente; " + 
+		"É nunca contentar-se de contente; " + 
+		"É cuidar que se ganha em se perder; " + 
 		
-		"É querer estar preso por vontade;" + 
-		"É servir a quem vence, o vencedor;" + 
-		"É ter com quem nos mata lealdade." + 
+		"É querer estar preso por vontade; " + 
+		"É servir a quem vence, o vencedor; " + 
+		"É ter com quem nos mata lealdade. " + 
 		
-		"Mas como causar pode seu favor" + 
-		"Nos corações humanos amizade," + 
+		"Mas como causar pode seu favor " + 
+		"Nos corações humanos amizade, " + 
 		"Se tão contrário a si é o mesmo Amor?";
 		
 		String braulioBessa =
-		"Só eu sei cada passo por mim dado" + 
-		"nessa estrada esburacada que é a vida," + 
-		"passei coisas que até mesmo Deus duvida," + 
-		"fiquei triste, capiongo, aperreado," + 
-		"porém nunca me senti desmotivado," + 
-		"me agarrava sempre numa mão amiga," + 
-		"e de forças minha alma era munida" + 
-		"pois do céu a voz de Deus dizia assim:" + 
-		"- Suba o queixo, meta os pés, confie em mim," + 
+		"Só eu sei cada passo por mim dado " + 
+		"nessa estrada esburacada que é a vida, " + 
+		"passei coisas que até mesmo Deus duvida, " + 
+		"fiquei triste, capiongo, aperreado, " + 
+		"porém nunca me senti desmotivado, " + 
+		"me agarrava sempre numa mão amiga, " + 
+		"e de forças minha alma era munida " + 
+		"pois do céu a voz de Deus dizia assim: " + 
+		"- Suba o queixo, meta os pés, confie em mim, " + 
 		"vá pra luta que eu cuido das feridas";
 		
 		String maquinaDoMundo =
-		"E como eu palmilhasse vagamente" + 
-		"uma estrada de Minas, pedregosa," + 
-		"e no fecho da tarde um sino rouco" + 
+		"E como eu palmilhasse vagamente " + 
+		"uma estrada de Minas, pedregosa, " + 
+		"e no fecho da tarde um sino rouco " + 
 		
-		"se misturasse ao som de meus sapatos" + 
-		"que era pausado e seco; e aves pairassem" + 
-		"no céu de chumbo, e suas formas pretas" + 
+		"se misturasse ao som de meus sapatos " + 
+		"que era pausado e seco; e aves pairassem " + 
+		"no céu de chumbo, e suas formas pretas " + 
 		
-		"lentamente se fossem diluindo" + 
-		"na escuridão maior, vinda dos montes" + 
-		"e de meu próprio ser desenganado," + 
+		"lentamente se fossem diluindo " + 
+		"na escuridão maior, vinda dos montes " + 
+		"e de meu próprio ser desenganado, " + 
 		
-		"a máquina do mundo se entreabriu" + 
-		"para quem de a romper já se esquivava" + 
-		"e só de o ter pensado se carpia." + 
+		"a máquina do mundo se entreabriu " + 
+		"para quem de a romper já se esquivava " + 
+		"e só de o ter pensado se carpia. " + 
 		
-		"Abriu-se majestosa e circunspecta," + 
-		"sem emitir um som que fosse impuro" + 
-		"nem um clarão maior que o tolerável" + 
+		"Abriu-se majestosa e circunspecta, " + 
+		"sem emitir um som que fosse impuro " + 
+		"nem um clarão maior que o tolerável " + 
 		
-		"pelas pupilas gastas na inspeção" + 
-		"contínua e dolorosa do deserto," + 
-		"e pela mente exausta de mentar" + 
+		"pelas pupilas gastas na inspeção " + 
+		"contínua e dolorosa do deserto, " + 
+		"e pela mente exausta de mentar " + 
 		
-		"toda uma realidade que transcende" + 
-		"a própria imagem sua debuxada" + 
-		"no rosto do mistério, nos abismos." + 
+		"toda uma realidade que transcende " + 
+		"a própria imagem sua debuxada " + 
+		"no rosto do mistério, nos abismos. " + 
 		
-		"Abriu-se em calma pura, e convidando" + 
-		"quantos sentidos e intuições restavam" + 
-		"a quem de os ter usado os já perdera" + 
+		"Abriu-se em calma pura, e convidando " + 
+		"quantos sentidos e intuições restavam " + 
+		"a quem de os ter usado os já perdera " + 
 		
-		"e nem desejaria recobrá-los," + 
-		"se em vão e para sempre repetimos" + 
-		"os mesmos sem roteiro tristes périplos," + 
+		"e nem desejaria recobrá-los, " + 
+		"se em vão e para sempre repetimos " + 
+		"os mesmos sem roteiro tristes périplos, " + 
 		
-		"convidando-os a todos, em coorte," + 
-		"a se aplicarem sobre o pasto inédito" + 
+		"convidando-os a todos, em coorte, " + 
+		"a se aplicarem sobre o pasto inédito " + 
 		"da natureza mítica das coisas";
 		
 		String[] seeds = {
@@ -218,7 +220,7 @@ public class GrowthTest {
 			}
 		}
 		
-		Growth growth = trunk.getGrowth();
+		Growth<TwigInfo> growth = trunk.getGrowth();
 		System.out.println("longst seed: " + growth.getLongstSeed());
 		System.out.println(growth.getSeeds().size());
 		for (String seed : growth.getSeeds()) {
@@ -226,5 +228,97 @@ public class GrowthTest {
 		}
 		
 	}
+	
+	@Test
+	public void createSeveralRamifications_searchForward_checkGrowth() {
+		//createRootTwigs_addSeveralRamifications_checkGrowth();
+		String maquina = "a máquina do mundo se entreabriu ";
+		String maquinaDoMundo =
+				"E como eu palmilhasse vagamente " + 
+				"uma estrada de Minas, pedregosa, " + 
+				"e no fecho da tarde um sino rouco " + 
+				
+				"se misturasse ao som de meus sapatos " + 
+				"que era pausado e seco; e aves pairassem " + 
+				"no céu de chumbo, e suas formas pretas " + 
+				
+				"lentamente se fossem diluindo " + 
+				"na escuridão maior, vinda dos montes " + 
+				"e de meu próprio ser desenganado, " + 
+				
+				"a máquina do mundo se entreabriu " + 
+				"para quem de a romper já se esquivava " + 
+				"e só de o ter pensado se carpia. " + 
+				
+				"Abriu-se majestosa e circunspecta, " + 
+				"sem emitir um som que fosse impuro " + 
+				"nem um clarão maior que o tolerável " + 
+				
+				"pelas pupilas gastas na inspeção " + 
+				"contínua e dolorosa do deserto, " + 
+				"e pela mente exausta de mentar " + 
+				
+				"toda uma realidade que transcende " + 
+				"a própria imagem sua debuxada " + 
+				"no rosto do mistério, nos abismos. " + 
+				
+				"Abriu-se em calma pura, e convidando " + 
+				"quantos sentidos e intuições restavam " + 
+				"a quem de os ter usado os já perdera " + 
+				
+				"e nem desejaria recobrá-los, " + 
+				"se em vão e para sempre repetimos " + 
+				"os mesmos sem roteiro tristes périplos, " + 
+				
+				"convidando-os a todos, em coorte, " + 
+				"a se aplicarem sobre o pasto inédito " + 
+				"da natureza mítica das coisas";
+		
+		String[] seeds = {
+				maquina,
+				maquinaDoMundo
+		};
+		
+		for (String seed : seeds) {			
+			for (String s : seed.split(" ")) {
+				trunk.addTwig(new Twig<TwigInfo>(s));
+			}
+		}
+		System.out.println("trunk search");
+		Optional<Twig<TwigInfo>> target = trunk.getTwigById("mon");
+		if(target.isPresent()) {
+			System.out.println(target.get().getId());
+			dive(target.get());					
+		}
+		if(target.isPresent()) {
+			System.out.println("backwords search");
+			Optional<Twig<TwigInfo>> twig = target.get().traceBackwords("mo");
+			if(twig.isPresent()) {
+				System.out.println(twig.get().getId());
+				for (Twig<TwigInfo> node : twig.get().getRamifications()) {
+					dive(node);					
+				}
+			}
+			System.out.println("forwards search");
+			Optional<Twig<TwigInfo>> forwards = twig.get().traceForwords("mont");
+			if(forwards.isPresent()) {
+				System.out.println(forwards.get().getId());
+				for (Twig<TwigInfo> node : forwards.get().getRamifications()) {
+					dive(node);					
+				}
+			}
+		}
+	}
+	
+	private void dive(Twig<TwigInfo> twig) {
+		for (Twig<TwigInfo> node : twig.getRamifications()) {
+			if(node.getRamifications().isEmpty()) {
+				System.out.println(node.getId());
+			}else {
+				dive(node);
+			}
+		}
+	}
+
 
 }

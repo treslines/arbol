@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class TrunkTest {
 	
-	private static Trunk<TwigInfo> trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+	private static Trunk<TwigInfo> trunk = new Trunk<TwigInfo>("trunkId");
 
 	@Test
 	public void createRootTwigs() {
@@ -46,7 +46,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_tryAddSameTwigsAgain_notPossible() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		createRootTwigs();
 		assertEquals(4, trunk.getRamifications().size());
@@ -54,7 +54,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_tryAdd1DifferentRamification_possible() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		
 		String twig2Id = "BB";
@@ -71,7 +71,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_tryAdd2DifferentRamification_possible() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		
 		String twig2Id = "BB";
@@ -110,7 +110,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_isLeaf_yes() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		
 		boolean yes = true;
@@ -120,7 +120,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_isLeaf_no() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		
 		String twig2Id = "BA";
@@ -148,7 +148,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_caRemoveTwig_no() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		
 		boolean no = false;
@@ -158,7 +158,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_caRemoveTwig_yes() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		
 		boolean yes = false;
@@ -168,7 +168,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_isRamificationOnly_no() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		
 		boolean no = false;
@@ -178,7 +178,7 @@ public class TrunkTest {
 	
 	@Test
 	public void createRootTwigs_isRamificationOnly_yes() {
-		trunk = new Trunk<TwigInfo>("trunkId", new Growth());
+		trunk = new Trunk<TwigInfo>("trunkId");
 		createRootTwigs();
 		
 		String twig2Id = "AB";

@@ -23,23 +23,23 @@ public class Twig<T> implements Twigable<T> {
 	private String id;
 	private T twigInfo;
 	private List<Twig<T>> ramifications;
-	private Growth growth;
+	private Twig<T> parentTwig;
+	private Growth<T> growth;
 	private static final long serialVersionUID = -2274874211524488445L;
 
 	public Twig(final String id) {
-		this(id, null, new ArrayList<Twig<T>>());
-		this.growth = null;
+		this(id, null, new ArrayList<Twig<T>>(), new Growth<T>());
 	}
 	
-	public Twig(final String id, final Growth growth) {
-		this(id, null, new ArrayList<Twig<T>>());
-		this.growth = growth;
+	public Twig(final String id, final Growth<T> growth) {
+		this(id, null, new ArrayList<Twig<T>>(), growth);
 	}
 
-	public Twig(final String id, final T info, final List<Twig<T>> twigs) {
+	public Twig(final String id, final T info, final List<Twig<T>> twigs, final Growth<T> growth) {
 		if (id == null) throw new IllegalArgumentException("Id can't be null!");
 		this.id = id.trim();
 		this.twigInfo = info;
+		this.growth = growth;
 		this.ramifications = twigs;
 	}
 
@@ -87,7 +87,7 @@ public class Twig<T> implements Twigable<T> {
 		if (getRamifications().stream().anyMatch(t -> t.getId().contentEquals(nextTwigId))) {
 			Optional<Twig<T>> target = getRamificationById(nextTwigId);
 			if (target.isPresent() && twig.getId().length() > target.get().getId().length()) {
-				target.get().addRamification(twig);
+				target.get().addRamification(twig, target.get());
 			} else {
 				// already exists, no need to re-add!
 			}
@@ -100,11 +100,51 @@ public class Twig<T> implements Twigable<T> {
 				if(this.growth != null) {
 					Twig<T> newTwig = new Twig<T>(nextTwigId, this.growth);
 					this.ramifications.add(newTwig);
-					newTwig.getRamifications().add(twig);					
+					twig.addParentTwig(newTwig);
+					newTwig.addRamification(twig);					
 				}else {
 					Twig<T> newTwig = new Twig<T>(nextTwigId);
 					this.ramifications.add(newTwig);
-					newTwig.getRamifications().add(twig);	
+					twig.addParentTwig(newTwig);
+					newTwig.addRamification(twig);	
+				}
+			}
+		}
+	}
+	
+	public void addRamification(final Twig<T> twig, final Twig<T> parent) {
+
+		if(this.growth != null) {
+			this.growth.addSeed(twig.getId());
+		}
+		
+		final int nextIdIndex = ((this.id.length() + 1) > twig.getId().length()) ? twig.getId().length() : (this.id.length() + 1);
+		final String nextTwigId = twig.getId().substring(0, nextIdIndex).trim();
+
+		if (getRamifications().stream().anyMatch(t -> t.getId().contentEquals(nextTwigId))) {
+			Optional<Twig<T>> target = getRamificationById(nextTwigId);
+			if (target.isPresent() && twig.getId().length() > target.get().getId().length()) {
+				target.get().addRamification(twig, target.get());
+			} else {
+				// already exists, no need to re-add!
+			}
+		} else {
+			// if not found and new twigId is only one sign greater than current, add
+			if (twig.getId().length() - nextTwigId.length() == 0) {
+				this.ramifications.add(twig);
+				twig.addParentTwig(this);
+			} else {
+				// otherwise, create and add to the newly created twig
+				if(this.growth != null) {
+					Twig<T> newTwig = new Twig<T>(nextTwigId, this.growth);
+					this.ramifications.add(newTwig);
+					newTwig.addParentTwig(this);
+					newTwig.addRamification(twig, newTwig);					
+				}else {
+					Twig<T> newTwig = new Twig<T>(nextTwigId);
+					this.ramifications.add(newTwig);
+					newTwig.addParentTwig(this);
+					newTwig.addRamification(twig, newTwig);	
 				}
 			}
 		}
@@ -119,7 +159,7 @@ public class Twig<T> implements Twigable<T> {
 		final int nextIdIndex = ((this.id.length() + 1) > id.length()) ? id.length() : (this.id.length() + 1);
 		final String nextTwigId = id.substring(0, nextIdIndex).trim();
 
-		Optional<Twig<T>> target = this.ramifications.stream().filter(t -> t.getId().contentEquals(nextTwigId)).findFirst();
+		Optional<Twig<T>> target = this.ramifications.stream().filter(t -> t.getId().startsWith(nextTwigId)).findFirst();
 
 		final int twigIdSigns = nextTwigId.length();
 		if (target.isPresent() && id.length() == twigIdSigns) {
@@ -136,7 +176,6 @@ public class Twig<T> implements Twigable<T> {
 
 	@Override
 	public void removeRamification(String id) {
-		
 		if(this.growth != null) {
 			this.growth.removeSeed(id);
 		}
@@ -147,8 +186,40 @@ public class Twig<T> implements Twigable<T> {
 		}
 	}
 	
-	public void addGrowth(final Growth growth) {
+	public void addGrowth(final Growth<T> growth) {
 		this.growth = growth;
+	}
+
+	@Override
+	public Optional<Twig<T>> traceBackwords(String id) {
+		if(parentTwig != null) {
+			return parentTwig.getTwigById(id);
+		}
+		// may not have a parent, if it is outgoing from trunk, in this case use traceFromTrunk
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Twig<T>> traceForwords(String id) {
+		return getTwigById(id);
+	}
+
+	@Override
+	public Optional<Twig<T>> traceFromTrunk(String id) {
+		if(this.growth != null && this.growth.getTraceable().isPresent()) {
+			return this.growth.getTraceable().get().traceFromTrunk(id);
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public void addParentTwig(Twig<T> parent) {
+		this.parentTwig = parent;
+	}
+
+	@Override
+	public Twig<T> getParentTwig() {
+		return this.parentTwig;
 	}
 
 }
