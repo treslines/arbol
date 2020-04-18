@@ -82,24 +82,24 @@ public class Trunk<T> implements TrunkTraceable<T> {
 		if (ramifications.stream().anyMatch(t -> t.getId().contentEquals(trunkId))) {
 			Optional<Twig<T>> targetTwig = getTwigById(trunkId);
 			if (targetTwig.isPresent() && twig.getId().length() > 1) {
-				targetTwig.get().addRamification(twig, targetTwig.get());
+				targetTwig.get().addRamification(twig);
 			}
 		} else {
-			// if not found and new twigId is only one sign greater than current, add
+			// if not found and new twigId is equals current, add
 			if (twig.getId().length() - trunkId.length() == 0) {
 				ramifications.add(twig);
 			} else {
-				// otherwise, create and add to the newly created twig
+				// otherwise, create & add to the newly created twig
 				if(this.growth != null) {
 					Twig<T> newTwig = new Twig<T>(trunkId, this.growth);
 					ramifications.add(newTwig);
 					newTwig.addParentTwig(null);
-					newTwig.addRamification(twig, newTwig);	
+					newTwig.addRamification(twig);	
 				}else {
 					Twig<T> newTwig = new Twig<T>(trunkId);
 					ramifications.add(newTwig);
 					newTwig.addParentTwig(null);
-					newTwig.addRamification(twig, newTwig);	
+					newTwig.addRamification(twig);	
 				}
 			}
 		}
@@ -125,7 +125,7 @@ public class Trunk<T> implements TrunkTraceable<T> {
 		}
 	}
 
-	// Whenever a twig decides to trace from the trunk, it calls this method.
+	// Whenever a twig decides to search from the trunk, it calls this method.
 	@Override
 	public Optional<Twig<T>> traceFromTrunk(final String id) {
 		return getTwigById(id);
