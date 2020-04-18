@@ -60,6 +60,10 @@
     <end type="TARGET" refId="4"/>  
   </realization>  
   <association id="8">    
+    <bendpoint x="412" y="354"/>    
+    <bendpoint x="553" y="354"/>    
+    <bendpoint x="553" y="242"/>    
+    <bendpoint x="479" y="241"/>    
     <end type="SOURCE" refId="6" navigable="false">      
       <attribute id="9" name="parentTwig"/>      
       <multiplicity id="10" minimum="0" maximum="1"/>    
@@ -80,6 +84,9 @@
     <end type="TARGET" refId="4"/>  
   </generalization>  
   <association id="15">    
+    <bendpoint x="435" y="326"/>    
+    <bendpoint x="502" y="326"/>    
+    <bendpoint x="503" y="307"/>    
     <end type="SOURCE" refId="6" navigable="false">      
       <attribute id="16" name="ramifications"/>      
       <multiplicity id="17" minimum="0" maximum="2147483647"/>    
